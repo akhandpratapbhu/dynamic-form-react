@@ -48,13 +48,13 @@ const router = createBrowserRouter([
     ],
   },
   {
-    element: <PersistLogin />,
-    errorElement: <Error />,
-    children: [
-      {
-        element: <RequireAuth />,
-        children: [
-          {
+    // element: <PersistLogin />,
+    // errorElement: <Error />,
+    // children: [
+    //   {
+    //     element: <RequireAuth />,
+    //     children: [
+    //       {
             element: <BaseLayout />,
             children: [
               {
@@ -75,10 +75,10 @@ const router = createBrowserRouter([
               },
             ],
           },
-        ],
-      },
-    ],
-  },
+  //       ],
+  //     },
+  //   ],
+  // },
   {
     path: 'forms/:id',
     element: <GeneratedForm />,

@@ -76,7 +76,8 @@ export default function CreateForm({ formType = 'add', form }: Props) {
   const { mutate, isPending } = useMutation({
     mutationFn: () =>
       axiosPrivate({
-        url: formType === 'add' ? '/forms' : '/forms/' + id,
+        // url: formType === 'add' ? '/forms' : '/forms/' + id,
+        url: formType === 'add'  ? `${import.meta.env.VITE_BACKEND_BASE_URL}/forms`  : `${import.meta.env.VITE_BACKEND_BASE_URL}/forms/${id}`,
         method: formType === 'add' ? 'post' : 'patch',
         data: {
           name: formName,
@@ -208,11 +209,11 @@ export default function CreateForm({ formType = 'add', form }: Props) {
               </AlertDialog>
             ) : null}
             <Button
-              // disabled={isDemo}
+               disabled={isDemo}
               isLoading={isPending}
-              // className={isDemo ? 'gap-2.5' : ''}
+               className={isDemo ? 'gap-2.5' : ''}
             >
-              {/* {isDemo && <LockIcon className="h-[18px] w-[18px]" />} */}
+              {isDemo && <LockIcon className="h-[18px] w-[18px]" />}
               <span>{form ? 'Update Form' : 'Save Form'}</span>
             </Button>
           </section>
