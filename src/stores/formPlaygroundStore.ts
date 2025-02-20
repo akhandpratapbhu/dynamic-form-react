@@ -8,7 +8,7 @@ import { FormElementsType } from '@/validation/types';
 interface FormPlaygroundStoreType {
   formElements: FormElementsType[];
   setFormElements: (formElements: FormElementsType[]) => void;
-  addFormElement: (label: string,name:string, DataType: string) => void;
+  addFormElement: (label: string, DataType: string) => void;
   moveFormElement: (oldIndex: number, newIndex: number) => void;
   updateLabel: (id: string, label: string) => void;
   toggleRequired: (id: string) => void;
@@ -32,14 +32,13 @@ export const useFormPlaygroundStore = createWithEqualityFn(
         
       ),
       
-    addFormElement: (label, DataType,name) =>
+    addFormElement: (label, DataType) =>
       
       set(
         produce((draft: FormPlaygroundStoreType) => {
           draft.formElements.push({
             id: uuid(),
-            label,
-            name,           
+            label,           
             DataType,
             isRequired: false,
             options: [
@@ -70,19 +69,32 @@ export const useFormPlaygroundStore = createWithEqualityFn(
           );
         }),
       ),
-    updateLabel: (id, label) =>
-      set(
-        produce((draft: FormPlaygroundStoreType) => {
-          draft.formElements.forEach(el => {
-            if (el.id === id) {
-              el.label = label;
-              return;
-            }
-          });
-          console.log("updateLabel",label,)
+      updateLabel: (id, label) =>
+        set(
+          produce((draft: FormPlaygroundStoreType) => {
+            draft.formElements.forEach(el => {
+              if (el.id === id) {
+                el.label = label.replace(/<[^>]*>/g, ""); // Removes HTML tags
+                return;
+              }
+            });
+            console.log("updateLabel", label);
+          }),
+        ),
+     
+    // updateLabel: (id, label) =>
+    //   set(
+    //     produce((draft: FormPlaygroundStoreType) => {
+    //       draft.formElements.forEach(el => {
+    //         if (el.id === id) {
+    //           el.label = label;
+    //           return;
+    //         }
+    //       });
+    //       console.log("updateLabel",label,)
 
-        }),
-      ),
+    //     }),
+    //   ),
     toggleRequired: id =>
       set(
         produce((draft: FormPlaygroundStoreType) => {

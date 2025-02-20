@@ -58,7 +58,7 @@ export default function CreateForm({ formType = 'add', form }: Props) {
     state => state.removeAllFormElements,
   );
   const formElements = useFormPlaygroundStore(state => state.formElements);
-
+console.log(formElements)
   useEffect(() => {
     return () => {
       if (formType === 'edit') removeAllFormElements();
@@ -115,7 +115,6 @@ export default function CreateForm({ formType = 'add', form }: Props) {
         setActiveButton(null);
         if (!over) return;
         addFormElement(
-          active.data.current?.element.text as string,
           active.data.current?.element.text as string,
           active.id as string,
         );

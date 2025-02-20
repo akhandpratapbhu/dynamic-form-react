@@ -161,6 +161,7 @@ export default function FormElementCard({
         </div>
         {DataType === 'single-line' ? (
           <Input
+            type="string"
             placeholder="Single line text"
             required={field ? isRequired : false}
             value={field?.value ?? ''}
