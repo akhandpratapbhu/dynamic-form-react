@@ -86,9 +86,9 @@ export default function GeneratedForm() {
   useEffect(() => {
     if (!data) return;
     const defaultValues: { [x: string]: unknown } = {};
-    data.attributes.forEach(({ id, DataTypeTableID }) => {
-      if (['switch', 'checkbox'].includes(DataTypeTableID)) defaultValues[id] = false;
-      else if (DataTypeTableID === 'checklist') defaultValues[id] = [];
+    data.attributes.forEach(({ id, DataType }) => {
+      if (['switch', 'checkbox'].includes(DataType)) defaultValues[id] = false;
+      else if (DataType === 'checklist') defaultValues[id] = [];
       else defaultValues[id] = null;
     });
     form.reset(defaultValues);
@@ -97,10 +97,10 @@ export default function GeneratedForm() {
   const onSubmit = (values: { [x: string]: string }) => {
     if (!data) return;
 
-    for (const { id,name,label, isRequired, DataTypeTableID } of data.attributes) {
+    for (const { id,name,label, isRequired, DataType } of data.attributes) {
       if (
         isRequired &&
-        (!values[id] || (DataTypeTableID === 'checklist' && values[id].length === 0))
+        (!values[id] || (DataType === 'checklist' && values[id].length === 0))
       ) {
         toast.error('Please fill all required fields');
         return;
@@ -108,12 +108,12 @@ export default function GeneratedForm() {
     }
 
     const response = data.attributes
-      .filter(({ DataTypeTableID }) => !['heading', 'description'].includes(DataTypeTableID))
-      .map(({ id, label, options, DataTypeTableID }) => ({
-        elementType: DataTypeTableID,
+      .filter(({ DataType }) => !['heading', 'description'].includes(DataType))
+      .map(({ id, label, options, DataType }) => ({
+        elementType: DataType,
         question: label,
         answer:
-          options && DataTypeTableID !== 'checklist'
+          options && DataType !== 'checklist'
             ? options.find(({ value }) => value === values[id])?.label ?? null
             : values[id] ?? null,
       }));

@@ -48,7 +48,7 @@ export default function FormElementCard({
   isView = false,
   field,
 }: Props) {
-  const { id, label, type, required, options } = formElement;
+  const { id, label, DataType, isRequired, options } = formElement;
   const removeFormElement = useFormPlaygroundStore(
     state => state.removeFormElement,
   );
@@ -92,19 +92,19 @@ export default function FormElementCard({
       )}
       <div
         className={`flex-grow space-y-2 ${
-          ['heading', 'description', 'checkbox', 'switch'].includes(type)
+          ['heading', 'description', 'checkbox', 'switch'].includes(DataType)
             ? ''
             : 'pb-2'
         }`}
       >
         <div className="flex items-center gap-8">
           <div className="flex w-full items-center gap-5">
-            {type === 'switch' ? (
+            {DataType === 'switch' ? (
               <Switch
                 checked={field?.value}
                 onCheckedChange={field?.onChange}
               />
-            ) : type === 'checkbox' ? (
+            ) : DataType === 'checkbox' ? (
               <Checkbox
                 checked={field?.value}
                 onCheckedChange={field?.onChange}
@@ -112,7 +112,7 @@ export default function FormElementCard({
             ) : null}
             <BubbleMenuEditor
               placeholder={
-                ['heading', 'description'].includes(type)
+                ['heading', 'description'].includes(DataType)
                   ? label
                   : 'Question or Text'
               }
@@ -126,12 +126,12 @@ export default function FormElementCard({
           {isView ? null : (
             <div className="flex items-center">
               {['heading', 'description', 'switch', 'checkbox'].includes(
-                type,
+                DataType,
               ) ? null : (
                 <div className="flex items-center gap-2">
                   <Switch
                     id={'required-' + id}
-                    checked={required}
+                    checked={isRequired}
                     onCheckedChange={() => toggleRequired(id)}
                   />
                   <Label
@@ -159,35 +159,35 @@ export default function FormElementCard({
             </div>
           )}
         </div>
-        {type === 'single-line' ? (
+        {DataType === 'single-line' ? (
           <Input
             placeholder="Single line text"
-            required={field ? required : false}
+            required={field ? isRequired : false}
             value={field?.value ?? ''}
             onChange={field?.onChange}
           />
-        ) : type === 'number' ? (
+        ) : DataType === 'number' ? (
           <Input
             type="number"
             placeholder="Number"
-            required={field ? required : false}
+            required={field ? isRequired : false}
             value={field?.value ?? ''}
             onChange={field?.onChange}
           />
-        ) : type === 'multi-line' ? (
+        ) : DataType === 'multi-line' ? (
           <Textarea
             placeholder="Multi line text..."
-            required={field ? required : false}
+            required={field ? isRequired : false}
             value={field?.value ?? ''}
             onChange={field?.onChange}
           />
-        ) : type === 'rich-text' ? (
+        ) : DataType === 'rich-text' ? (
           <RichTextEditor field={field} />
         ) : ['checklist', 'multi-choice', 'dropdown', 'combobox'].includes(
-            type,
+          DataType,
           ) && !isView ? (
-          <Options type={type} id={id} />
-        ) : type === 'checklist' ? (
+          <Options type={DataType} id={id} />
+        ) : DataType === 'checklist' ? (
           <ul className="space-y-3">
             {options?.map(({ label, value }) => (
               <li key={value} className="flex items-center gap-3">
@@ -211,7 +211,7 @@ export default function FormElementCard({
               </li>
             ))}
           </ul>
-        ) : type === 'multi-choice' ? (
+        ) : DataType === 'multi-choice' ? (
           <RadioGroup
             className="gap-3"
             value={field?.value}
@@ -229,11 +229,11 @@ export default function FormElementCard({
               </div>
             ))}
           </RadioGroup>
-        ) : type === 'dropdown' ? (
+        ) : DataType === 'dropdown' ? (
           <Select
             value={field?.value}
             onValueChange={field?.onChange}
-            required={field ? required : false}
+            required={field ? isRequired : false}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select an option..." />
@@ -246,39 +246,39 @@ export default function FormElementCard({
               ))}
             </SelectContent>
           </Select>
-        ) : type === 'combobox' && options ? (
+        ) : DataType === 'combobox' && options ? (
           <Combobox options={options} field={field} />
-        ) : type === 'date' ? (
+        ) : DataType === 'date' ? (
           <DatePicker field={field} />
-        ) : type === 'date-range' ? (
+        ) : DataType === 'date-range' ? (
           <DateRangePicker field={field} />
-        ) : type === 'time' ? (
+        ) : DataType === 'time' ? (
           <Input
             type="time"
             className="w-32"
-            required={field ? required : false}
+            required={field ? isRequired : false}
             value={field?.value ?? ''}
             onChange={field?.onChange}
           />
-        ) : type === 'attachments' ? (
+        ) : DataType === 'attachments' ? (
           <Input
             type="file"
             className="pt-1.5 text-muted-foreground"
-            required={field ? required : false}
+            required={field ? isRequired : false}
             value={field?.value ?? ''}
             onChange={field?.onChange}
           />
-        ) : type === 'image' ? (
+        ) : DataType === 'image' ? (
           <Input
             type="file"
             accept="image/*"
             className="pt-1.5 text-muted-foreground"
-            required={field ? required : false}
+            required={field ? isRequired : false}
             value={field?.value ?? ''}
             onChange={field?.onChange}
           />
         ) : null}
-        {isView && required ? (
+        {isView && isRequired ? (
           <div className="pt-1 text-sm text-destructive">* Required</div>
         ) : null}
       </div>

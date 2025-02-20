@@ -8,7 +8,7 @@ import { FormElementsType } from '@/validation/types';
 interface FormPlaygroundStoreType {
   formElements: FormElementsType[];
   setFormElements: (formElements: FormElementsType[]) => void;
-  addFormElement: (label: string,name:string, DataTypeTableID: string) => void;
+  addFormElement: (label: string,name:string, DataType: string) => void;
   moveFormElement: (oldIndex: number, newIndex: number) => void;
   updateLabel: (id: string, label: string) => void;
   toggleRequired: (id: string) => void;
@@ -26,30 +26,39 @@ export const useFormPlaygroundStore = createWithEqualityFn(
       set(
         produce((draft: FormPlaygroundStoreType) => {
           draft.formElements = formElements;
-        }),
+        },
+        console.log(formElements)
       ),
-    addFormElement: (label, DataTypeTableID,name) =>
+        
+      ),
+      
+    addFormElement: (label, DataType,name) =>
+      
       set(
         produce((draft: FormPlaygroundStoreType) => {
           draft.formElements.push({
             id: uuid(),
             label,
             name,           
-            DataTypeTableID,
+            DataType,
             isRequired: false,
             options: [
               'checklist',
               'multi-choice',
               'dropdown',
               'combobox',
-            ].includes(DataTypeTableID)
+            ].includes(DataType)
               ? [
                   { label: 'Option 1', value: uuid() },
                   { label: 'Option 2', value: uuid() },
                 ]
               : undefined,
           });
-        }),
+          console.log("addformelemw",label, DataType,name)
+
+        }
+      ),
+
       ),
     moveFormElement: (oldIndex, newIndex) =>
       set(
@@ -70,6 +79,8 @@ export const useFormPlaygroundStore = createWithEqualityFn(
               return;
             }
           });
+          console.log("updateLabel",label,)
+
         }),
       ),
     toggleRequired: id =>
