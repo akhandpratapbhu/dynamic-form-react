@@ -8,7 +8,7 @@ export type FormType = {
   _id: string;
   isActive: boolean;
   name: string;
-  elements: FormElementsType[];
+  attributes: FormElementsType[];
   user: string;
   createdAt: string;
   updatedAt: string;

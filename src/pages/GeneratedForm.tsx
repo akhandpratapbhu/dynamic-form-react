@@ -86,9 +86,9 @@ export default function GeneratedForm() {
   useEffect(() => {
     if (!data) return;
     const defaultValues: { [x: string]: unknown } = {};
-    data.elements.forEach(({ id, type }) => {
-      if (['switch', 'checkbox'].includes(type)) defaultValues[id] = false;
-      else if (type === 'checklist') defaultValues[id] = [];
+    data.attributes.forEach(({ id, DataTypeTableID }) => {
+      if (['switch', 'checkbox'].includes(DataTypeTableID)) defaultValues[id] = false;
+      else if (DataTypeTableID === 'checklist') defaultValues[id] = [];
       else defaultValues[id] = null;
     });
     form.reset(defaultValues);
@@ -97,23 +97,23 @@ export default function GeneratedForm() {
   const onSubmit = (values: { [x: string]: string }) => {
     if (!data) return;
 
-    for (const { id, required, type } of data.elements) {
+    for (const { id,name,label, isRequired, DataTypeTableID } of data.attributes) {
       if (
-        required &&
-        (!values[id] || (type === 'checklist' && values[id].length === 0))
+        isRequired &&
+        (!values[id] || (DataTypeTableID === 'checklist' && values[id].length === 0))
       ) {
         toast.error('Please fill all required fields');
         return;
       }
     }
 
-    const response = data.elements
-      .filter(({ type }) => !['heading', 'description'].includes(type))
-      .map(({ id, label, options, type }) => ({
-        elementType: type,
+    const response = data.attributes
+      .filter(({ DataTypeTableID }) => !['heading', 'description'].includes(DataTypeTableID))
+      .map(({ id, label, options, DataTypeTableID }) => ({
+        elementType: DataTypeTableID,
         question: label,
         answer:
-          options && type !== 'checklist'
+          options && DataTypeTableID !== 'checklist'
             ? options.find(({ value }) => value === values[id])?.label ?? null
             : values[id] ?? null,
       }));
@@ -164,7 +164,7 @@ export default function GeneratedForm() {
               <li className="rounded-md bg-background px-5 py-3 text-2xl font-medium">
                 {data.name}
               </li>
-              {data.elements.map(element => (
+              {data.attributes.map(element => (
                 <li key={element.id}>
                   <FormField
                     control={form.control}

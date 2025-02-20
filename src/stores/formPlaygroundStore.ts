@@ -8,7 +8,7 @@ import { FormElementsType } from '@/validation/types';
 interface FormPlaygroundStoreType {
   formElements: FormElementsType[];
   setFormElements: (formElements: FormElementsType[]) => void;
-  addFormElement: (label: string, type: string) => void;
+  addFormElement: (label: string,name:string, DataTypeTableID: string) => void;
   moveFormElement: (oldIndex: number, newIndex: number) => void;
   updateLabel: (id: string, label: string) => void;
   toggleRequired: (id: string) => void;
@@ -28,20 +28,21 @@ export const useFormPlaygroundStore = createWithEqualityFn(
           draft.formElements = formElements;
         }),
       ),
-    addFormElement: (label, type) =>
+    addFormElement: (label, DataTypeTableID,name) =>
       set(
         produce((draft: FormPlaygroundStoreType) => {
           draft.formElements.push({
             id: uuid(),
             label,
-            type,
-            required: false,
+            name,           
+            DataTypeTableID,
+            isRequired: false,
             options: [
               'checklist',
               'multi-choice',
               'dropdown',
               'combobox',
-            ].includes(type)
+            ].includes(DataTypeTableID)
               ? [
                   { label: 'Option 1', value: uuid() },
                   { label: 'Option 2', value: uuid() },
@@ -76,7 +77,7 @@ export const useFormPlaygroundStore = createWithEqualityFn(
         produce((draft: FormPlaygroundStoreType) => {
           draft.formElements.forEach(el => {
             if (el.id === id) {
-              el.required = !el.required;
+              el.isRequired = !el.isRequired;
               return;
             }
           });

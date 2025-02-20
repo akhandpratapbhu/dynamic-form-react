@@ -77,11 +77,12 @@ export default function CreateForm({ formType = 'add', form }: Props) {
     mutationFn: () =>
       axiosPrivate({
         // url: formType === 'add' ? '/forms' : '/forms/' + id,
-        url: formType === 'add'  ? `${import.meta.env.VITE_BACKEND_BASE_URL}/forms`  : `${import.meta.env.VITE_BACKEND_BASE_URL}/forms/${id}`,
+        // url: formType === 'add'  ? `${import.meta.env.VITE_BACKEND_BASE_URL}/forms`  : `${import.meta.env.VITE_BACKEND_BASE_URL}/forms/${id}`,
+        url: formType === 'add'  ? `http://localhost:8011/api/Home/InsertUpdateEntity`  : `${import.meta.env.VITE_BACKEND_BASE_URL}/forms/${id}`,
         method: formType === 'add' ? 'post' : 'patch',
         data: {
           name: formName,
-          elements: formElements,
+          attributes: formElements,
         },
       }),
     onSuccess: () => {
@@ -114,6 +115,7 @@ export default function CreateForm({ formType = 'add', form }: Props) {
         setActiveButton(null);
         if (!over) return;
         addFormElement(
+          active.data.current?.element.text as string,
           active.data.current?.element.text as string,
           active.id as string,
         );

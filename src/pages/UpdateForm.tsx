@@ -33,7 +33,7 @@ export default function UpdateForm() {
 
   if (isError) return <Error fullScreen={false} />;
 
-  setFormElements(data.elements);
+  setFormElements(data.attributes);
 
   return (
     <div>
