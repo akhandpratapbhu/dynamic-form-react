@@ -16,37 +16,37 @@ import UpdateForm from './pages/UpdateForm';
 import GeneratedForm from './pages/GeneratedForm';
 
 const router = createBrowserRouter([
-  {
-    element: <AuthLayout />,
-    errorElement: <Error />,
-    children: [
-      {
-        path: '/login',
-        element: <Login />,
-      },
-      /* {
-        path: '/sso/login',
-        element: <SSOLogin />,
-      }, */
-      {
-        path: '/signup',
-        element: <Signup />,
-      },
-      {
-        path: '/recover-password',
-        element: <RecoverPassword />,
-      },
-      {
-        path: '/reset-password/:token',
-        element: <ResetPassword />,
-      },
-      {
-        path: '/demo',
-        element: <CreateForm />,
-      },
+  // {
+  //   element: <AuthLayout />,
+  //   errorElement: <Error />,
+  //   children: [
+  //     {
+  //       path: '/login',
+  //       element: <Login />,
+  //     },
+  //     /* {
+  //       path: '/sso/login',
+  //       element: <SSOLogin />,
+  //     }, */
+  //     {
+  //       path: '/signup',
+  //       element: <Signup />,
+  //     },
+  //     {
+  //       path: '/recover-password',
+  //       element: <RecoverPassword />,
+  //     },
+  //     {
+  //       path: '/reset-password/:token',
+  //       element: <ResetPassword />,
+  //     },
+  //     {
+  //       path: '/demo',
+  //       element: <CreateForm />,
+  //     },
       
-    ],
-  },
+  //   ],
+  // },
   {
     // element: <PersistLogin />,
     // errorElement: <Error />,
