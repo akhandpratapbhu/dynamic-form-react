@@ -66,6 +66,10 @@ const router = createBrowserRouter([
                 element: <MyForms />,
               },
               {
+                path: '/generate-form',
+                element: <GeneratedForm />,
+              },
+              {
                 path: '/my-forms/:id/edit',
                 element: <UpdateForm />,
               },

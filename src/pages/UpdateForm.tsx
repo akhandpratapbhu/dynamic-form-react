@@ -7,6 +7,7 @@ import type { FormType } from '../types';
 import LoadingSvg from '../assets/loading.svg';
 import Error from './Error';
 import { useFormPlaygroundStore } from '../stores/formPlaygroundStore';
+import axios from '@/lib/axios';
 
 export default function UpdateForm() {
   const navigate = useNavigate();
@@ -19,7 +20,9 @@ export default function UpdateForm() {
 
   const { data, isPending, isError } = useQuery<FormType>({
     queryKey: ['forms', id],
-    queryFn: () => axiosPrivate('/forms/' + id).then(res => res.data.data.form),
+    // queryFn: () => axiosPrivate('/forms/' + id).then(res => res.data.data.form),
+       queryFn: () => axios('http://localhost:8080/api/Home/GetMaster/29').then(res => res.data),
+    
   });
 
   if (isPending)

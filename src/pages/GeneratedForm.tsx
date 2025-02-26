@@ -64,8 +64,10 @@ export default function GeneratedForm() {
 
   const { data, isPending, isError } = useQuery<FormType>({
     queryKey: ['forms', id],
-    queryFn: () => axios('/forms/' + id).then(res => res.data.data.form),
+   // queryFn: () => axios('/forms/' + id).then(res => res.data.data.form),
+   queryFn: () => axios('http://localhost:8080/api/Home/GetMaster/29').then(res => res.data.data),
   });
+  console.log("data",data);
 
   const mutation = useMutation({
     mutationFn: (
