@@ -33,6 +33,7 @@ import DemoInfoCard from '../components/create-form/DemoInfoCard';
 import type { FormType } from '../types';
 import { Switch } from '../components/ui/Switch';
 import FormPreview from '../components/create-form/FormPreview';
+import axios from 'axios';
 
 interface Props {
   formType?: 'add' | 'edit';
@@ -71,34 +72,53 @@ console.log(formElements)
       coordinateGetter: sortableKeyboardCoordinates,
     }),
   );
-
-  const axiosPrivate = useAxiosPrivate();
-  const { mutate, isPending } = useMutation({
-    mutationFn: () =>
-      axiosPrivate({
-        // url: formType === 'add' ? '/forms' : '/forms/' + id,
-        // url: formType === 'add'  ? `${import.meta.env.VITE_BACKEND_BASE_URL}/forms`  : `${import.meta.env.VITE_BACKEND_BASE_URL}/forms/${id}`,
-        url: formType === 'add'  ? `http://localhost:8011/api/Home/InsertUpdateEntity`  : `${import.meta.env.VITE_BACKEND_BASE_URL}/forms/${id}`,
+  const apiCall = async () => {
+    try {
+      //SMLIsuzu.stg103.netsmartz.us/api/Home/InsertUpdateEntity
+      await axios({
+        url:
+          formType === 'add'
+            ? `http://localhost:8080/api/Home/InsertUpdateEntity`
+            : `http://SMLIsuzu.stg103.netsmartz.us/api/Home/InsertUpdateEntity/forms/${id}`,
         method: formType === 'add' ? 'post' : 'patch',
         data: {
           name: formName,
           attributes: formElements,
         },
-      }),
-    onSuccess: () => {
-      if (formType === 'edit') navigate('/my-forms');
-      queryClient.invalidateQueries({
-        queryKey: ['forms'],
       });
-      setFormName('');
-      removeAllFormElements();
-      toast.success(
-        `Form ${formType === 'add' ? 'created' : 'updated'} successfully`,
-      );
-    },
-    onError: () =>
-      toast.error(`Error ${formType === 'add' ? 'creating' : 'updating'} form`),
-  });
+
+      toast.success(`Form ${formType === 'add' ? 'created' : 'updated'} successfully`);
+    } catch (error) {
+      toast.error(`Error ${formType === 'add' ? 'creating' : 'updating'} form`);
+      console.error('API Error:', error);
+    }
+  };
+
+  // const { mutate, isPending } = useMutation({
+  //   mutationFn: () =>
+  //     axios({
+  //       // url: formType === 'add' ? '/forms' : '/forms/' + id,
+  //        url: formType === 'add'  ? `${import.meta.env.VITE_BACKEND_BASE_URL}`  : `${import.meta.env.VITE_BACKEND_BASE_URL}/forms/${id}`,
+  //       method: formType === 'add' ? 'post' : 'patch',
+  //       data: {
+  //         name: formName,
+  //         attributes: formElements,
+  //       },
+  //     }),
+  //   onSuccess: () => {
+  //     // if (formType === 'edit') navigate('/my-forms');
+  //     // queryClient.invalidateQueries({
+  //     //   queryKey: ['forms'],
+  //     // });
+  //     // setFormName('');
+  //     // removeAllFormElements();
+  //     toast.success(
+  //       `Form ${formType === 'add' ? 'created' : 'updated'} successfully`,
+  //     );
+  //   },
+  //   onError: () =>
+  //     toast.error(`Error ${formType === 'add' ? 'creating' : 'updating'} form`),
+  // });
 
   return (
     <DndContext
@@ -131,7 +151,7 @@ console.log(formElements)
               toast.error('Form is empty!');
               return;
             }
-            mutate();
+            apiCall();
           }}
         >
           <section className="mb-3 flex items-center justify-between">
@@ -211,7 +231,7 @@ console.log(formElements)
             ) : null}
             <Button
                disabled={isDemo}
-              isLoading={isPending}
+              // isLoading={isPending}
                className={isDemo ? 'gap-2.5' : ''}
             >
               {isDemo && <LockIcon className="h-[18px] w-[18px]" />}

@@ -97,7 +97,7 @@ export default function GeneratedForm() {
   const onSubmit = (values: { [x: string]: string }) => {
     if (!data) return;
 
-    for (const { id,name,label, isRequired, DataType } of data.attributes) {
+    for (const { id,label, isRequired, DataType } of data.attributes) {
       if (
         isRequired &&
         (!values[id] || (DataType === 'checklist' && values[id].length === 0))
