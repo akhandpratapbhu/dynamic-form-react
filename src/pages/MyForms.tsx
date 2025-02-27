@@ -21,6 +21,7 @@ import { Switch } from '../components/ui/Switch';
 import DataTableRowActions from '../components/my-forms/DataTableRowActions';
 import Error from './Error';
 import DataTableShimmer from '../components/shared/data-table/DataTableShimmer';
+import axios from '@/lib/axios';
 
 dayjs.extend(relativeTime);
 
@@ -40,17 +41,23 @@ export default function MyForms() {
     sort: searchParams.get('sort') || '-createdAt',
     search: searchParams.get('query'),
   };
-  const { data, isPending, isError, isFetching } = useQuery<FormsResponseType>({
-    queryKey: ['forms', params],
-    queryFn: () =>
-      axiosPrivate({
-        url: '/forms',
-        params,
-      }).then(res => res.data.data),
-    placeholderData: keepPreviousData,
-  });
-
-  const mutation = useMutation({
+  // const { data, isPending, isError, isFetching } = useQuery<FormsResponseType>({
+  //   queryKey: ['forms', params],
+  //   queryFn: () =>
+  //     axiosPrivate({
+  //       url: '/forms',
+  //       params,
+  //     }).then(res => res.data.data),
+  //   placeholderData: keepPreviousData,
+  // });
+  
+    const { data, isPending, isError,isFetching } = useQuery<any>({
+      queryKey: ['forms'],
+     // queryFn: () => axios('/forms/' + id).then(res => res.data.data.form),
+     queryFn: () => axios('http://smlisuzu.stg103.netsmartz.us/api/Home/GetAllMaster').then((res: { data: { data: any; }; }) => res?.data?.data),
+    });
+    console.log("data",data);
+    const mutation = useMutation({
     mutationFn: ({ formId, isActive }: { formId: string; isActive: boolean }) =>
       axiosPrivate.patch('/forms/' + formId, { isActive }),
     onSuccess: () => {
@@ -108,10 +115,10 @@ export default function MyForms() {
             checked={row.original.isActive}
             disabled={
               mutation.isPending &&
-              mutation.variables?.formId === row.original._id
+              mutation.variables?.formId === row.original.id
             }
             onCheckedChange={checked => {
-              mutation.mutate({ formId: row.original._id, isActive: checked });
+              mutation.mutate({ formId: row.original.id, isActive: checked });
             }}
             onClick={e => e.stopPropagation()}
           />
@@ -143,7 +150,7 @@ export default function MyForms() {
       },
       {
         id: 'actions',
-        cell: ({ row }) => <DataTableRowActions formId={row.original._id} />,
+        cell: ({ row }) => <DataTableRowActions formId={row.original.id} />,
       },
     ],
     [mutation],
@@ -155,16 +162,16 @@ export default function MyForms() {
   return (
     <DataTable<FormType, string>
       columns={columns}
-      data={data.forms}
-      totalEntries={data.total}
+       data={data}
+       totalEntries={data.total}
       isFetching={isFetching}
       bulkDeleteHandler={forms => {
         bulkDeleteMutation.mutate(forms);
-      }}
+      } }
       bulkDeleteIsLoading={bulkDeleteMutation.isPending}
       clickHandler={formId => {
         window.open(window.location.origin + '/forms/' + formId, '_blank');
-      }}
-    />
+      } } 
+         />
   );
 }

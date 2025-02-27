@@ -78,7 +78,7 @@ console.log(formElements)
       await axios({
         url:
           formType === 'add'
-            ? `http://localhost:8080/api/Home/InsertUpdateEntity`
+            ? `http://smlisuzu.stg103.netsmartz.us/api/Home/InsertUpdateEntity`
             : `http://SMLIsuzu.stg103.netsmartz.us/api/Home/InsertUpdateEntity/forms/${id}`,
         method: formType === 'add' ? 'post' : 'patch',
         data: {

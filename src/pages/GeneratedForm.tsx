@@ -65,7 +65,7 @@ export default function GeneratedForm() {
   const { data, isPending, isError } = useQuery<FormType>({
     queryKey: ['forms', id],
    // queryFn: () => axios('/forms/' + id).then(res => res.data.data.form),
-   queryFn: () => axios('http://localhost:8080/api/Home/GetMaster/29').then(res => res.data.data),
+   queryFn: () => axios('http://localhost:8080/api/Home/GetMaster/'+ id).then(res => res.data.data),
   });
   console.log("data",data);
 
@@ -88,9 +88,9 @@ export default function GeneratedForm() {
   useEffect(() => {
     if (!data) return;
     const defaultValues: { [x: string]: unknown } = {};
-    data.attributes.forEach(({ id, DataType }) => {
-      if (['switch', 'checkbox'].includes(DataType)) defaultValues[id] = false;
-      else if (DataType === 'checklist') defaultValues[id] = [];
+    data.attributes.forEach(({ id, dataType }) => {
+      if (['switch', 'checkbox'].includes(dataType)) defaultValues[id] = false;
+      else if (dataType === 'checklist') defaultValues[id] = [];
       else defaultValues[id] = null;
     });
     form.reset(defaultValues);
@@ -99,10 +99,10 @@ export default function GeneratedForm() {
   const onSubmit = (values: { [x: string]: string }) => {
     if (!data) return;
 
-    for (const { id,label, isRequired, DataType } of data.attributes) {
+    for (const { id,label, isRequired, dataType } of data.attributes) {
       if (
         isRequired &&
-        (!values[id] || (DataType === 'checklist' && values[id].length === 0))
+        (!values[id] || (dataType === 'checklist' && values[id].length === 0))
       ) {
         toast.error('Please fill all required fields');
         return;
@@ -110,12 +110,12 @@ export default function GeneratedForm() {
     }
 
     const response = data.attributes
-      .filter(({ DataType }) => !['heading', 'description'].includes(DataType))
-      .map(({ id, label, options, DataType }) => ({
-        elementType: DataType,
+      .filter(({ dataType }) => !['heading', 'description'].includes(dataType))
+      .map(({ id, label, options, dataType }) => ({
+        elementType: dataType,
         question: label,
         answer:
-          options && DataType !== 'checklist'
+          options && dataType !== 'checklist'
             ? options.find(({ value }) => value === values[id])?.label ?? null
             : values[id] ?? null,
       }));

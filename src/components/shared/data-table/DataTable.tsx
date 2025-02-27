@@ -44,7 +44,7 @@ interface DataTableProps<TData, TValue> {
   clickHandler?: (id: string) => void;
 }
 
-export function DataTable<TData extends { _id: string }, TValue>({
+export function DataTable<TData extends { id: string }, TValue>({
   columns,
   data,
   totalEntries,
@@ -54,6 +54,7 @@ export function DataTable<TData extends { _id: string }, TValue>({
   clickHandler = () => {},
 }: DataTableProps<TData, TValue>) {
   const [searchParams, setSearchParams] = useSearchParams();
+console.log("datatable",data);
 
   const sort = searchParams.get('sort');
   const [sorting, setSorting] = useState<SortingState>(
@@ -138,7 +139,7 @@ export function DataTable<TData extends { _id: string }, TValue>({
                     onClick={() => {
                       bulkDeleteHandler(
                         Object.keys(rowSelection).map(
-                          index => data[Number(index)]._id,
+                          index => data[Number(index)].id,
                         ),
                       );
                       setRowSelection({});
@@ -185,7 +186,7 @@ export function DataTable<TData extends { _id: string }, TValue>({
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
                   className={isFetching ? 'opacity-60' : 'cursor-pointer'}
-                  onClick={() => clickHandler(row.original._id)}
+                  onClick={() => clickHandler(row.original.id)}
                 >
                   {row.getVisibleCells().map(cell => (
                     <TableCell key={cell.id}>

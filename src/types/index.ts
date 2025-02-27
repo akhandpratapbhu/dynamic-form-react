@@ -5,7 +5,7 @@ export interface PaginatedResponseType {
 }
 
 export type FormType = {
-  _id: string;
+  id: string;
   isActive: boolean;
   name: string;
   attributes: FormElementsType[];

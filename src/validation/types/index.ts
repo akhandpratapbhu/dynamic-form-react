@@ -1,7 +1,7 @@
 export interface FormElementsType {
   id: string;
   label: string;
-  DataType: string;
+  dataType: string;
   isRequired: boolean;
   options?: { label: string; value: string }[];
 }

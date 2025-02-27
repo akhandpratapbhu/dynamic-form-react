@@ -31,9 +31,10 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ResponsesDialog from './ResponsesDialog';
 
-export default function DataTableRowActions({ formId }: { formId: string }) {
+export default function DataTableRowActions({ formId }: { formId: any }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+console.log("formId",formId);
 
   const queryClient = useQueryClient();
   const axiosPrivate = useAxiosPrivate();
