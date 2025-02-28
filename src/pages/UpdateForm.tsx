@@ -21,9 +21,10 @@ export default function UpdateForm() {
   const { data, isPending, isError } = useQuery<FormType>({
     queryKey: ['forms', id],
     // queryFn: () => axiosPrivate('/forms/' + id).then(res => res.data.data.form),
-       queryFn: () => axios('http://localhost:8080/api/Home/GetMaster/29').then(res => res.data),
+       queryFn: () => axios('http://localhost:8080/api/Home/GetMaster/'+ id).then(res => res.data.data),
     
   });
+console.log("res",data);
 
   if (isPending)
     return (

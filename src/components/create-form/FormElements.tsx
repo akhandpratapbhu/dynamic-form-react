@@ -31,11 +31,11 @@ const elementGroups = [
     title: 'Layout Elements',
     elements: [
       {
-        text: 'Heading',
+        text: 'heading',
         Icon: HeadingIcon,
       },
       {
-        text: 'Description',
+        text: 'description',
         Icon: PencilLineIcon,
       },
     ],
@@ -44,19 +44,19 @@ const elementGroups = [
     title: 'Text Elements',
     elements: [
       {
-        text: 'Single Line',
+        text: 'single-line',
         Icon: TypeIcon,
       },
       {
-        text: 'Number',
+        text: 'number',
         Icon: NumberSvg,
       },
       {
-        text: 'Multi-line',
+        text: 'multi-line',
         Icon: TextIcon,
       },
       {
-        text: 'Rich Text',
+        text: 'rich-text',
         Icon: TextEditStyleSvg,
       },
     ],
@@ -65,27 +65,27 @@ const elementGroups = [
     title: 'Multi Elements',
     elements: [
       {
-        text: 'Checklist',
+        text: 'checklist',
         Icon: ListTodoIcon,
       },
       {
-        text: 'Multi-choice',
+        text: 'multi-choice',
         Icon: ListSvg,
       },
       {
-        text: 'Dropdown',
+        text: 'dropdown',
         Icon: ChevronDownCircleIcon,
       },
       {
-        text: 'Combobox',
+        text: 'combobox',
         Icon: ListSearchSvg,
       },
       {
-        text: 'Checkbox',
+        text: 'checkbox',
         Icon: CheckSquareIcon,
       },
       {
-        text: 'Switch',
+        text: 'switch',
         Icon: ToggleRightIcon,
       },
     ],
@@ -94,15 +94,15 @@ const elementGroups = [
     title: 'Date Elements',
     elements: [
       {
-        text: 'Date',
+        text: 'date',
         Icon: CalendarDaysIcon,
       },
       {
-        text: 'Date Range',
+        text: 'date-range',
         Icon: CalendarRangeIcon,
       },
       {
-        text: 'Time',
+        text: 'time',
         Icon: ClockIcon,
       },
     ],

@@ -30,6 +30,7 @@ import {
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ResponsesDialog from './ResponsesDialog';
+import axios from '@/lib/axios';
 
 export default function DataTableRowActions({ formId }: { formId: any }) {
   const [open, setOpen] = useState(false);
@@ -39,7 +40,7 @@ console.log("formId",formId);
   const queryClient = useQueryClient();
   const axiosPrivate = useAxiosPrivate();
   const { mutate, isPending } = useMutation({
-    mutationFn: () => axiosPrivate.delete('/forms/' + formId),
+    mutationFn: () => axios.delete('forms/' + formId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['forms'],
