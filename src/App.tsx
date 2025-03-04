@@ -14,6 +14,8 @@ import Settings from './pages/Settings';
 import MyForms from './pages/MyForms';
 import UpdateForm from './pages/UpdateForm';
 import GeneratedForm from './pages/GeneratedForm';
+import JobCardTable from './pages/JobCard/grid-jobcard';
+import HorizontalLinearStepper from './pages/JobCard/create-jobcard';
 
 const router = createBrowserRouter([
   // {
@@ -77,7 +79,16 @@ const router = createBrowserRouter([
                 path: '/settings',
                 element: <Settings />,
               },
+              {
+                path: '/create-job-card',
+                element: <HorizontalLinearStepper />,
+              },
+              {
+                path: '/grid-job-card',
+                element: <JobCardTable />,
+              },
             ],
+            
           },
   //       ],
   //     },

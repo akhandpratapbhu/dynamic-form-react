@@ -14,6 +14,14 @@ const navItems = [
     label: 'Settings',
     href: '/settings',
   },
+  {
+    label: 'CreateJobCard',
+    href: '/create-job-card',
+  },
+  {
+    label: 'GridJobCard',
+    href: '/grid-job-card',
+  },
 ];
 
 export default function BaseLayout() {
